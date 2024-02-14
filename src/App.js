@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
+import TableProduct from './components/tableProduct';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const [products, setProducts] = useState([])
+
+  const allProducts = async() => {
+    const url = 'http://localhost:3002/'
+    const allProductsBack =  await axios(url)
+    setProducts(allProductsBack.data.rows)
+  }
+
+  useEffect( () =>{
+    allProducts()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Crud</h1>
+        <TableProduct products={products}/>
     </div>
   );
 }
